@@ -1,0 +1,202 @@
+[
+  {
+    "title": "Initialize Turborepo monorepo structure",
+    "description": "Set up the root directory with Turborepo, create all required folders (apps, packages, infra, docs), and configure basic package.json and turbo.json.",
+    "acceptanceCriteria": "Root package.json with workspaces and turbo dependency\nturbo.json with basic task configuration\nAll directories created as per structure\n.env.example file with placeholder variables",
+    "labels": ["setup", "devops"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Set up development environment with Docker",
+    "description": "Create Docker Compose file for local development with PostgreSQL, and dockerfiles for each service.",
+    "acceptanceCriteria": "docker-compose.yml in infra/docker\nDockerfile for backend\nDockerfile for frontend\nPostgreSQL service configured",
+    "labels": ["setup", "devops", "docker"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Configure CI/CD pipeline with GitHub Actions",
+    "description": "Set up GitHub Actions workflow for build, test, and deploy.",
+    "acceptanceCriteria": ".github/workflows/ci.yml\nBuild and test steps for all apps\nDeploy to staging/production",
+    "labels": ["devops", "ci"],
+    "priority": "medium",
+    "effort": "large"
+  },
+  {
+    "title": "Set up PostgreSQL database with Neon",
+    "description": "Configure Neon PostgreSQL instance and connection.",
+    "acceptanceCriteria": "Neon project created\nDATABASE_URL configured\nMigration scripts set up",
+    "labels": ["devops", "database"],
+    "priority": "high",
+    "effort": "small"
+  },
+  {
+    "title": "Implement user registration API",
+    "description": "Create backend endpoint for user registration with username, email, wallet address.",
+    "acceptanceCriteria": "POST /api/auth/register endpoint\nUser model in database\nInput validation\nJWT token returned",
+    "labels": ["backend", "auth"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Implement user login API",
+    "description": "Create backend endpoint for user login.",
+    "acceptanceCriteria": "POST /api/auth/login endpoint\nPassword verification\nJWT token returned",
+    "labels": ["backend", "auth"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Create user profile management API",
+    "description": "Endpoints to get and update user profile.",
+    "acceptanceCriteria": "GET /api/users/:id\nPUT /api/users/:id\nProfile fields: username, bio, wallet",
+    "labels": ["backend", "users"],
+    "priority": "medium",
+    "effort": "medium"
+  },
+  {
+    "title": "Integrate Freighter wallet connection",
+    "description": "Add Freighter wallet connection to frontend.",
+    "acceptanceCriteria": "Connect button in UI\nWallet address retrieval\nConnection status display",
+    "labels": ["frontend", "wallet"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Implement transaction signing",
+    "description": "Sign Stellar transactions using Freighter.",
+    "acceptanceCriteria": "Sign transaction function\nHandle signing errors\nTransaction submission",
+    "labels": ["frontend", "wallet", "blockchain"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Develop Soroban smart contract for tipping",
+    "description": "Create Rust contract for tip storage and transfer.",
+    "acceptanceCriteria": "Contract code in apps/contracts\nTip function to send XLM/USDC\nStore tip records",
+    "labels": ["contracts", "soroban"],
+    "priority": "high",
+    "effort": "large"
+  },
+  {
+    "title": "Implement contract deployment script",
+    "description": "Script to deploy contract to Stellar testnet/mainnet.",
+    "acceptanceCriteria": "Deployment script in infra/scripts\nEnvironment configuration\nContract address output",
+    "labels": ["contracts", "devops"],
+    "priority": "medium",
+    "effort": "medium"
+  },
+  {
+    "title": "Create tip creation endpoint",
+    "description": "API to create a tip transaction.",
+    "acceptanceCriteria": "POST /api/tips\nValidate sender, receiver, amount\nCall smart contract\nReturn transaction hash",
+    "labels": ["backend", "api"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Create tip retrieval endpoints",
+    "description": "Get tips for a user.",
+    "acceptanceCriteria": "GET /api/tips?user=:id\nPaginated response\nInclude transaction details",
+    "labels": ["backend", "api"],
+    "priority": "medium",
+    "effort": "medium"
+  },
+  {
+    "title": "Set up database models",
+    "description": "Create Prisma or TypeORM models for users, tips.",
+    "acceptanceCriteria": "User model\nTip model\nDatabase migrations",
+    "labels": ["backend", "database"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Build creator profile page",
+    "description": "Page to display creator info and tip link.",
+    "acceptanceCriteria": "/creator/:username route\nDisplay bio, wallet\nTip button",
+    "labels": ["frontend", "ui"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Create dashboard for creators",
+    "description": "Dashboard to view received tips.",
+    "acceptanceCriteria": "/dashboard route\nList of tips\nTotal amount",
+    "labels": ["frontend", "ui"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Implement tip sending interface",
+    "description": "Modal or page to send tip.",
+    "acceptanceCriteria": "Amount input\nConfirm button\nTransaction status",
+    "labels": ["frontend", "ui"],
+    "priority": "high",
+    "effort": "medium"
+  },
+  {
+    "title": "Implement full tipping flow",
+    "description": "From tip button to confirmation.",
+    "acceptanceCriteria": "Connect wallet if not\nSign transaction\nShow success message\nUpdate dashboard",
+    "labels": ["frontend", "backend", "flow"],
+    "priority": "high",
+    "effort": "large"
+  },
+  {
+    "title": "Set up email notifications",
+    "description": "Send email when tip received.",
+    "acceptanceCriteria": "Email service configured\nTemplate for tip notification\nSend on tip creation",
+    "labels": ["backend", "notifications"],
+    "priority": "low",
+    "effort": "medium"
+  },
+  {
+    "title": "Create analytics dashboard",
+    "description": "Charts for tip statistics.",
+    "acceptanceCriteria": "Charts for daily/weekly tips\nTotal earnings",
+    "labels": ["frontend", "analytics"],
+    "priority": "low",
+    "effort": "large"
+  },
+  {
+    "title": "Write unit tests for backend",
+    "description": "Tests for API endpoints.",
+    "acceptanceCriteria": "Jest setup\nTests for auth endpoints\n80% coverage",
+    "labels": ["testing", "backend"],
+    "priority": "medium",
+    "effort": "medium"
+  },
+  {
+    "title": "Write unit tests for smart contracts",
+    "description": "Tests for Soroban contract.",
+    "acceptanceCriteria": "Test framework set up\nTests for tip function",
+    "labels": ["testing", "contracts"],
+    "priority": "medium",
+    "effort": "medium"
+  },
+  {
+    "title": "Deploy frontend to Vercel",
+    "description": "Set up Vercel deployment.",
+    "acceptanceCriteria": "Vercel project connected\nBuild configuration\nDomain set up",
+    "labels": ["deployment", "frontend"],
+    "priority": "medium",
+    "effort": "small"
+  },
+  {
+    "title": "Deploy backend to cloud",
+    "description": "Deploy to Heroku or similar.",
+    "acceptanceCriteria": "Cloud provider configured\nEnvironment variables set\nDatabase connected",
+    "labels": ["deployment", "backend"],
+    "priority": "medium",
+    "effort": "medium"
+  },
+  {
+    "title": "Deploy smart contract to Stellar",
+    "description": "Deploy to mainnet.",
+    "acceptanceCriteria": "Contract deployed\nAddress recorded",
+    "labels": ["deployment", "contracts"],
+    "priority": "low",
+    "effort": "small"
+  }
+]

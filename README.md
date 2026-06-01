@@ -1,95 +1,99 @@
-# StellarTip
+# StellarTip Frontend
 
-A full-stack decentralized micro-tipping platform for creators on the Stellar ecosystem.
+A decentralized micro-tipping platform for creators on the Stellar ecosystem.
+
+Built with [Next.js](https://nextjs.org/) (App Router), [TypeScript](https://www.typescriptlang.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
 ## Overview
 
-StellarTip allows creators to receive instant micro-payments (tips) from supporters globally using the Stellar blockchain. Built with Next.js, NestJS, Soroban smart contracts, and PostgreSQL.
+StellarTip allows creators to receive instant micro-payments (tips) from supporters globally using the Stellar blockchain. This repository contains the frontend application — a Next.js app with Freighter wallet integration for connecting to the Stellar network.
 
 ## Tech Stack
 
-- **Frontend**: Next.js (TypeScript, App Router)
-- **Backend**: NestJS (TypeScript)
-- **Smart Contracts**: Rust (Soroban)
-- **Database**: PostgreSQL (Neon)
-- **Architecture**: Monorepo (Turborepo)
-- **Blockchain**: Stellar
-- **Wallet**: Freighter
-
-## Features
-
-### Core MVP
-- Creator profiles with username, bio, wallet address
-- Unique tip links per creator
-- Freighter wallet integration
-- Instant XLM/USDC tip payments
-- Creator dashboard with tip history
-
-### Advanced
-- Custom tip amounts
-- QR code tipping
-- Social sharing
-- Supporter lists
-- Subscription payments
-- NFT rewards
-- Embeddable widgets
-- Analytics dashboard
+| Technology     | Purpose                        |
+| -------------- | ------------------------------ |
+| Next.js 15     | React framework (App Router)   |
+| TypeScript     | Type safety                    |
+| Tailwind CSS 4 | Utility-first styling          |
+| Stellar SDK    | Blockchain interaction         |
+| Freighter      | Wallet connection              |
 
 ## Project Structure
 
 ```
-root/
-├── apps/
-│   ├── frontend/              # Creator pages + dashboard
-│   ├── backend/               # API (users, tips, profiles)
-│   └── contracts/             # Soroban smart contracts (tips)
-├── packages/
-│   ├── ui/                    # Shared UI components
-│   ├── config/                # Configuration utilities
-│   ├── types/                 # TypeScript types
-│   ├── utils/                 # Utility functions
-│   └── sdk/                   # Blockchain interaction logic
-├── infra/
-│   ├── docker/                # Docker configurations
-│   ├── ci/                    # CI/CD configurations
-│   └── scripts/               # Deployment and utility scripts
-├── docs/
-│   ├── architecture.md        # System architecture
-│   ├── api-spec.md            # API specifications
-│   ├── tipping-flow.md        # Tipping flow documentation
-│   └── product-requirements.md # Product requirements
-├── .env.example               # Environment variables template
-├── turbo.json                 # Turborepo configuration
-├── package.json               # Root package configuration
-└── README.md                  # This file
+.
+├── src/
+│   ├── app/           # Next.js App Router pages
+│   │   ├── layout.tsx # Root layout with metadata
+│   │   └── page.tsx   # Landing page
+│   ├── components/
+│   │   └── ui/        # Reusable UI components (Button, Card, etc.)
+│   ├── config/        # Application configuration
+│   ├── hooks/         # Custom React hooks (useWallet)
+│   ├── lib/           # Utilities & SDK wrappers
+│   │   ├── api.ts     # API client
+│   │   └── sdk/       # Stellar/Freighter integration
+│   ├── styles/        # Global styles & Tailwind setup
+│   └── types/         # TypeScript type definitions
+├── public/            # Static assets
+├── docs/              # Documentation
+├── .env.example       # Environment variable template
+├── next.config.ts     # Next.js configuration
+├── tsconfig.json      # TypeScript configuration
+└── package.json       # Dependencies & scripts
 ```
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
-- npm or yarn
-- Docker (for local development)
-- Rust (for smart contracts)
-- Soroban CLI
+- npm or pnpm
+- [Freighter wallet](https://freighter.app/) browser extension
 
 ### Installation
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Copy `.env.example` to `.env.local` and fill in values
-4. Start development: `npm run dev`
+```bash
+# Clone the repository
+git clone https://github.com/StellarTips/StellarTip-Frontend.git
+cd StellarTip-Frontend
 
-### Development
+# Install dependencies
+npm install
 
-- `npm run dev` - Start all services in development mode
-- `npm run build` - Build all services
-- `npm run test` - Run tests
-- `npm run lint` - Lint code
+# Copy environment variables
+cp .env.example .env.local
 
-## Contributing
+# Start development server
+npm run dev
+```
 
-See [issues.md](issues.md) for current tasks and priorities.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Scripts
+
+| Command                | Description                  |
+| ---------------------- | ---------------------------- |
+| `npm run dev`          | Start development server     |
+| `npm run build`        | Production build             |
+| `npm run start`        | Start production server      |
+| `npm run lint`         | Run ESLint                   |
+| `npm run typecheck`    | Run TypeScript type checking |
+| `npm run format`       | Format code with Prettier    |
+| `npm run format:check` | Check code formatting        |
+
+## Features
+
+- **Creator Profiles** — Custom profiles with tip links
+- **Freighter Wallet** — Seamless Stellar wallet integration
+- **Instant Tipping** — Send XLM/USDC tips with near-zero fees
+- **Creator Dashboard** — Track earnings and tip history
+- **QR Code Tipping** — Share your tip link via QR code
+
+## Learn More
+
+- [API Specification](./docs/api-spec.md)
+- [Architecture Overview](./docs/architecture.md)
 
 ## License
 

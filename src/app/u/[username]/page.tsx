@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Link as LinkIcon, Copy } from "lucide-react";
+import { Copy } from "lucide-react";
 import Link from "next/link";
 
 interface CreatorProfilePageProps {

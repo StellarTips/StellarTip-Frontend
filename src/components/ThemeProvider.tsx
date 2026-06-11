@@ -41,8 +41,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("stellartip-theme", theme);
   }, [theme, mounted]);
 
-  const setTheme = (t: Theme) => setThemeState(t);
-  const toggleTheme = () => setThemeState(prev => prev === "dark" ? "light" : "dark");
+  const setTheme = (_theme: Theme) => setThemeState(_theme);
+  const toggleTheme = () => setThemeState((prev) => (prev === "dark" ? "light" : "dark"));
 
   return (
     <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>

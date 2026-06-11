@@ -31,12 +31,12 @@ export function useToast() {
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback((message: string, type: ToastType, duration = 5000) => {
+  const addToast = useCallback((_message: string, _type: ToastType, _duration = 5000) => {
     const id = Math.random().toString(36).substring(2, 9);
-    setToasts((prev) => [...prev, { id, message, type, duration }]);
+    setToasts((prev) => [...prev, { id, message: _message, type: _type, duration: _duration }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, duration);
+    }, _duration);
   }, []);
 
   const removeToast = useCallback((id: string) => {

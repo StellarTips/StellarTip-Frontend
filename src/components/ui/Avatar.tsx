@@ -20,7 +20,11 @@ const sizeStyles = {
 };
 
 export function Avatar({ src, alt, fallback, size = "md", className, address }: AvatarProps) {
-  const initial = fallback?.charAt(0).toUpperCase() || alt?.charAt(0).toUpperCase() || address?.charAt(0).toUpperCase() || "?";
+  const initial =
+    fallback?.charAt(0).toUpperCase() ||
+    alt?.charAt(0).toUpperCase() ||
+    address?.charAt(0).toUpperCase() ||
+    "?";
 
   return (
     <div
@@ -32,6 +36,7 @@ export function Avatar({ src, alt, fallback, size = "md", className, address }: 
       title={alt || fallback || address}
     >
       {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={alt || "Avatar"}
@@ -64,9 +69,7 @@ export function AvatarWithInfo({
           </p>
         )}
         {subtitle && (
-          <p className="truncate text-xs text-surface-500 dark:text-surface-400">
-            {subtitle}
-          </p>
+          <p className="truncate text-xs text-surface-500 dark:text-surface-400">{subtitle}</p>
         )}
         {address && !subtitle && (
           <p className="truncate text-xs text-surface-500 dark:text-surface-400">

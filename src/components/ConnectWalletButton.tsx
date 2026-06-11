@@ -11,7 +11,7 @@ export function ConnectWalletButton() {
   if (wallet.status === "connected" && wallet.address) {
     return (
       <Button variant="outline" size="sm" onClick={disconnect}>
-        <Wallet className="h-4 w-4 mr-1.5" />
+        <Wallet className="h-4 w-4" />
         {truncateAddress(wallet.address)}
       </Button>
     );
@@ -27,7 +27,7 @@ export function ConnectWalletButton() {
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        <Wallet className="h-4 w-4 mr-1.5" />
+        <Wallet className="h-4 w-4" />
       )}
       Connect Wallet
     </Button>

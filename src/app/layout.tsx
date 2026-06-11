@@ -41,7 +41,7 @@ export default function RootLayout({
           <ToastProvider>
             <Header />
             <ErrorBoundary>
-              <main>{children}</main>
+              {children}
             </ErrorBoundary>
           </ToastProvider>
         </ThemeProvider>

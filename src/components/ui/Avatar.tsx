@@ -20,7 +20,7 @@ const sizeStyles = {
 };
 
 export function Avatar({ src, alt, fallback, size = "md", className, address }: AvatarProps) {
-  const initial = fallback?.charAt(0).toUpperCase() || alt?.charAt(0).toUpperCase() || "?";
+  const initial = fallback?.charAt(0).toUpperCase() || alt?.charAt(0).toUpperCase() || address?.charAt(0).toUpperCase() || "?";
 
   return (
     <div
@@ -29,7 +29,7 @@ export function Avatar({ src, alt, fallback, size = "md", className, address }: 
         sizeStyles[size],
         className
       )}
-      title={alt || address || fallback}
+      title={alt || fallback || address}
     >
       {src ? (
         <img

@@ -3,7 +3,7 @@
 import { type SelectHTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/utils/cn";
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
   label?: string;
   error?: string;
   helperText?: string;

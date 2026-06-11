@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
 import { ConnectWalletButton } from "@/components/ConnectWalletButton";
 import { useWallet } from "@/hooks/useWallet";
+import { useToast } from "@/components/ui/toast/ToastProvider";
 import { Heart, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -17,6 +18,7 @@ export default function TipPage() {
   const params = useParams();
   const username = params.username as string;
   const { wallet } = useWallet();
+  const { addToast } = useToast();
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("XLM");
   const [message, setMessage] = useState("");
@@ -24,7 +26,7 @@ export default function TipPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: submit tip
-    alert(`Tipping ${amount} ${currency} to @${username}`);
+    addToast(`Tipping ${amount} ${currency} to @${username}`, "success");
   };
 
   return (

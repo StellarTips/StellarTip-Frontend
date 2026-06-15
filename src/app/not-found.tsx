@@ -9,7 +9,8 @@ export default function NotFoundPage() {
         Page not found
       </h2>
       <p className="mt-2 max-w-md text-surface-500 dark:text-surface-400">
-        The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+        The page you are looking for might have been removed, had its name changed, or is
+        temporarily unavailable.
       </p>
       <div className="mt-8 flex gap-4">
         <Link href="/">

@@ -14,11 +14,7 @@ export function ThemeToggle({ variant = "ghost" as const, size = "sm" as const }
       onClick={toggleTheme}
       aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {resolvedTheme === "dark" ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
+      {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>
   );
 }

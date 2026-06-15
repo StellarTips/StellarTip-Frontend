@@ -23,8 +23,15 @@ export async function connectWallet(): Promise<{
   }
 
   try {
-    const stellar = (window as unknown as { stellar?: { isConnected: () => Promise<{ isConnected: boolean }>; getPublicKey: () => Promise<string> } }).stellar;
-    
+    const stellar = (
+      window as unknown as {
+        stellar?: {
+          isConnected: () => Promise<{ isConnected: boolean }>;
+          getPublicKey: () => Promise<string>;
+        };
+      }
+    ).stellar;
+
     if (!stellar) {
       throw new Error("Freighter API not available");
     }
@@ -40,8 +47,7 @@ export async function connectWallet(): Promise<{
       publicKey,
     };
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to connect wallet";
+    const message = error instanceof Error ? error.message : "Failed to connect wallet";
     throw new Error(message);
   }
 }

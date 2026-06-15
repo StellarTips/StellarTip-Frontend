@@ -16,7 +16,8 @@ const variantStyles: Record<BadgeVariant, string> = {
   success: "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300",
   warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300",
   danger: "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300",
-  outline: "border border-surface-300 text-surface-700 dark:border-surface-600 dark:text-surface-300",
+  outline:
+    "border border-surface-300 text-surface-700 dark:border-surface-600 dark:text-surface-300",
 };
 
 export function Badge({ children, variant = "default", className }: BadgeProps) {

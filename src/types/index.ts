@@ -62,11 +62,7 @@ export interface CreateTipResponse {
 
 // ── Wallet ────────────────────────────────────────────────────
 
-export type WalletConnectionStatus =
-  | "disconnected"
-  | "connecting"
-  | "connected"
-  | "error";
+export type WalletConnectionStatus = "disconnected" | "connecting" | "connected" | "error";
 
 export interface WalletState {
   address: string | null;

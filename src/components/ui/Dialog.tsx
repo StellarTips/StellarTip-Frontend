@@ -55,7 +55,10 @@ function DialogHeader({ className, children }: { className?: string; children: R
   );
 }
 
-function DialogTitle({ className, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>) {
+function DialogTitle({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       className={cn("text-lg font-semibold text-surface-900 dark:text-surface-100", className)}
@@ -64,7 +67,10 @@ function DialogTitle({ className, ...props }: React.ComponentPropsWithoutRef<typ
   );
 }
 
-function DialogDescription({ className, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>) {
+function DialogDescription({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>) {
   return (
     <DialogPrimitive.Description
       className={cn("text-sm text-surface-500 dark:text-surface-400", className)}

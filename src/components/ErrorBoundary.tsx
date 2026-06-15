@@ -40,7 +40,8 @@ export class ErrorBoundary extends Component<Props, State> {
                 Something went wrong
               </h2>
               <p className="max-w-md text-sm text-surface-500 dark:text-surface-400">
-                We encountered an unexpected error. Please try refreshing the page or contact support if the problem persists.
+                We encountered an unexpected error. Please try refreshing the page or contact
+                support if the problem persists.
               </p>
             </div>
             <Button

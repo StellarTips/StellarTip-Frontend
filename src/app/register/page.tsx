@@ -23,7 +23,11 @@ export default function RegisterPage() {
           <Input label="Username" placeholder="creatorname" required />
           <Input type="email" label="Email" placeholder="you@example.com" required />
           <Input type="password" label="Password" placeholder="Create a password" required />
-          <Input label="Wallet Address" placeholder="G..." helperText="Your Stellar wallet address" />
+          <Input
+            label="Wallet Address"
+            placeholder="G..."
+            helperText="Your Stellar wallet address"
+          />
           <Button type="submit" className="w-full">
             Create account
           </Button>

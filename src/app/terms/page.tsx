@@ -16,21 +16,30 @@ export default function TermsPage() {
 
         <div className="mt-8 space-y-6">
           <section>
-            <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-100">Acceptance of Terms</h2>
+            <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-100">
+              Acceptance of Terms
+            </h2>
             <p className="mt-2 text-sm text-surface-500 dark:text-surface-400">
-              By accessing or using StellarTip, you agree to be bound by these Terms of Service and all applicable laws and regulations.
+              By accessing or using StellarTip, you agree to be bound by these Terms of Service and
+              all applicable laws and regulations.
             </p>
           </section>
           <section>
-            <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-100">Blockchain Transactions</h2>
+            <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-100">
+              Blockchain Transactions
+            </h2>
             <p className="mt-2 text-sm text-surface-500 dark:text-surface-400">
-              All transactions are final and irreversible once confirmed on the Stellar blockchain. StellarTip is not responsible for lost funds or incorrect addresses.
+              All transactions are final and irreversible once confirmed on the Stellar blockchain.
+              StellarTip is not responsible for lost funds or incorrect addresses.
             </p>
           </section>
           <section>
-            <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-100">User Conduct</h2>
+            <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-100">
+              User Conduct
+            </h2>
             <p className="mt-2 text-sm text-surface-500 dark:text-surface-400">
-              Users agree not to use the platform for illegal activities, fraud, or harassment. Violation may result in account suspension.
+              Users agree not to use the platform for illegal activities, fraud, or harassment.
+              Violation may result in account suspension.
             </p>
           </section>
         </div>

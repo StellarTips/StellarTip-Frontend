@@ -19,9 +19,7 @@ export const metadata: Metadata = {
   },
   description:
     "Enable creators to receive instant, global micro-payments through a decentralized platform on the Stellar network.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
-  ),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -40,9 +38,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ToastProvider>
             <Header />
-            <ErrorBoundary>
-              {children}
-            </ErrorBoundary>
+            <ErrorBoundary>{children}</ErrorBoundary>
           </ToastProvider>
         </ThemeProvider>
       </body>

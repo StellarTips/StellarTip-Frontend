@@ -16,9 +16,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-surface-900 dark:text-surface-100">
-          Dashboard
-        </h1>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-surface-100">Dashboard</h1>
         <p className="text-sm text-surface-500 dark:text-surface-400">
           Overview of your tips and earnings
         </p>
@@ -39,11 +37,16 @@ export default function DashboardPage() {
         </div>
         <div className="mt-4 space-y-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center justify-between rounded-lg border border-surface-200 p-3 dark:border-surface-700">
+            <div
+              key={i}
+              className="flex items-center justify-between rounded-lg border border-surface-200 p-3 dark:border-surface-700"
+            >
               <div className="flex items-center gap-3">
                 <Skeleton variant="circle" width="32px" height="32px" />
                 <div>
-                  <p className="text-sm font-medium text-surface-900 dark:text-surface-100">Anonymous</p>
+                  <p className="text-sm font-medium text-surface-900 dark:text-surface-100">
+                    Anonymous
+                  </p>
                   <p className="text-xs text-surface-500">2 hours ago</p>
                 </div>
               </div>

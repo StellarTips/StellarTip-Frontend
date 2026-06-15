@@ -22,7 +22,8 @@ export default function AboutPage() {
           <Wallet className="h-8 w-8 text-primary-600" />
           <h3 className="mt-4 text-lg font-semibold">Wallet-First</h3>
           <p className="mt-2 text-sm text-surface-500 dark:text-surface-400">
-            Connect your Freighter wallet for seamless, secure transactions. No custodial accounts needed.
+            Connect your Freighter wallet for seamless, secure transactions. No custodial accounts
+            needed.
           </p>
         </Card>
         <Card>
@@ -43,7 +44,8 @@ export default function AboutPage() {
           <Shield className="h-8 w-8 text-primary-600" />
           <h3 className="mt-4 text-lg font-semibold">Zero Platform Fees</h3>
           <p className="mt-2 text-sm text-surface-500 dark:text-surface-400">
-            We don&apos;t take a cut. Only the minimal Stellar network fee applies to each transaction.
+            We don&apos;t take a cut. Only the minimal Stellar network fee applies to each
+            transaction.
           </p>
         </Card>
       </div>

@@ -11,12 +11,8 @@ export const config = {
   },
 
   stellar: {
-    network: (process.env.NEXT_PUBLIC_STELLAR_NETWORK ?? "testnet") as
-      | "testnet"
-      | "mainnet",
-    rpcUrl:
-      process.env.NEXT_PUBLIC_STELLAR_RPC_URL ??
-      "https://soroban-testnet.stellar.org",
+    network: (process.env.NEXT_PUBLIC_STELLAR_NETWORK ?? "testnet") as "testnet" | "mainnet",
+    rpcUrl: process.env.NEXT_PUBLIC_STELLAR_RPC_URL ?? "https://soroban-testnet.stellar.org",
   },
 
   pagination: {

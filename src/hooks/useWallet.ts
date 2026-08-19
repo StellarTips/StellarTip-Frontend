@@ -2,12 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { connectWallet, isFreighterInstalled } from "@/lib/sdk/stellar";
+import { config } from "@/config/index";
 import type { WalletConnectionStatus, WalletState } from "@/types/index";
 
 const initialState: WalletState = {
   address: null,
   publicKey: null,
-  network: "testnet",
+  network: config.stellar.network,
+  configuredNetwork: config.stellar.network,
   status: "disconnected",
   isFreighterInstalled: false,
 };
@@ -37,11 +39,12 @@ export function useWallet() {
     }));
 
     try {
-      const { address, publicKey } = await connectWallet();
+      const { address, publicKey, network } = await connectWallet();
       setWallet({
         address,
         publicKey,
-        network: "testnet",
+        network,
+        configuredNetwork: config.stellar.network,
         status: "connected",
         isFreighterInstalled: true,
       });

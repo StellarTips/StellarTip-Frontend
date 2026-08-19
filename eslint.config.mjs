@@ -11,6 +11,10 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // `next lint` skipped build output implicitly; the ESLint CLI does not.
+  {
+    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts", "coverage/**"],
+  },
   ...compat.extends("next/core-web-vitals"),
   {
     plugins: {

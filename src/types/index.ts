@@ -68,6 +68,7 @@ export interface WalletState {
   address: string | null;
   publicKey: string | null;
   network: "testnet" | "mainnet";
+  configuredNetwork: "testnet" | "mainnet";
   status: WalletConnectionStatus;
   isFreighterInstalled: boolean;
 }

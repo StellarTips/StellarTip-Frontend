@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Copy } from "lucide-react";
+import { CopyProfileLinkButton } from "@/components/CopyProfileLinkButton";
 import Link from "next/link";
 
 interface CreatorProfilePageProps {
@@ -38,10 +38,7 @@ export default async function CreatorProfilePage({ params }: CreatorProfilePageP
             <Link href={`/tip/${username}`}>
               <Button size="lg">Send a tip</Button>
             </Link>
-            <Button variant="outline" size="lg">
-              <Copy className="h-4 w-4 mr-1.5" />
-              Copy link
-            </Button>
+            <CopyProfileLinkButton username={username} />
           </div>
         </Card>
 

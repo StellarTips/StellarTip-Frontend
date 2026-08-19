@@ -4,6 +4,7 @@ export interface User {
   id: string;
   username: string;
   email?: string;
+  displayName?: string;
   bio?: string;
   walletAddress: string;
   avatarUrl?: string;
@@ -28,9 +29,30 @@ export interface SocialLink {
   label?: string;
 }
 
+// ── Auth ──────────────────────────────────────────────────────
+
+export interface SignupRequest {
+  email: string;
+  password: string;
+  username: string;
+  displayName?: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  user: User;
+}
+
 // ── Tips ──────────────────────────────────────────────────────
 
-export type TipCurrency = "XLM" | "USDC";
+export type TipAsset = "XLM" | "USDC";
 
 export type TipStatus = "pending" | "confirmed" | "failed";
 
@@ -39,8 +61,9 @@ export interface Tip {
   senderId?: string;
   senderWallet?: string;
   receiverId: string;
-  amount: string;
-  currency: TipCurrency;
+  receiverWallet: string;
+  amount: number;
+  asset: TipAsset;
   message?: string;
   status: TipStatus;
   transactionHash?: string;
@@ -48,9 +71,10 @@ export interface Tip {
 }
 
 export interface CreateTipRequest {
-  receiverId: string;
-  amount: string;
-  currency: TipCurrency;
+  receiverWallet: string;
+  senderWallet?: string;
+  amount: number;
+  asset?: TipAsset;
   message?: string;
 }
 
@@ -58,6 +82,15 @@ export interface CreateTipResponse {
   id: string;
   transactionHash: string;
   status: TipStatus;
+}
+
+// ── Tipping Info ──────────────────────────────────────────────
+
+export interface TippingInfo {
+  walletAddress: string;
+  username: string;
+  displayName?: string;
+  avatarUrl?: string;
 }
 
 // ── Wallet ────────────────────────────────────────────────────
@@ -81,25 +114,29 @@ export interface PaginationParams {
 
 export interface PaginatedResponse<T> {
   data: T[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }
 
 // ── API ───────────────────────────────────────────────────────
 
-export interface ApiError {
-  code: string;
-  message: string;
+export interface ApiSuccessEnvelope<T> {
+  success: boolean;
   statusCode: number;
-  details?: Record<string, string[]>;
+  data: T;
+  requestId: string;
+  timestamp: string;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: ApiError;
+export interface ApiErrorBody {
+  statusCode: number;
+  message: string;
+  errors?: Record<string, string[]>;
+  requestId: string;
+  timestamp: string;
+  path: string;
 }

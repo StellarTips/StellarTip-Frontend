@@ -1,12 +1,34 @@
 import { config } from "@/config/index";
 import type {
-  ApiError,
-  ApiResponse,
+  AuthResponse,
   CreateTipRequest,
   CreateTipResponse,
+  LoginRequest,
   PaginatedResponse,
+  SignupRequest,
   Tip,
+  TippingInfo,
+  User,
 } from "@/types/index";
+
+export class ApiClientError extends Error {
+  statusCode: number;
+  requestId: string;
+  errors?: Record<string, string[]>;
+
+  constructor(params: {
+    statusCode: number;
+    message: string;
+    requestId: string;
+    errors?: Record<string, string[]>;
+  }) {
+    super(params.message);
+    this.name = "ApiClientError";
+    this.statusCode = params.statusCode;
+    this.requestId = params.requestId;
+    this.errors = params.errors;
+  }
+}
 
 class ApiClient {
   private baseUrl: string;
@@ -36,58 +58,72 @@ class ApiClient {
       signal: AbortSignal.timeout(config.api.timeout),
     });
 
+    const body = await response.json().catch(() => null);
+
     if (!response.ok) {
-      const error: ApiError = await response.json().catch(() => ({
-        code: "UNKNOWN_ERROR",
-        message: "An unexpected error occurred",
+      const errorBody = body as {
+        statusCode?: number;
+        message?: string;
+        errors?: Record<string, string[]>;
+        requestId?: string;
+        path?: string;
+      } | null;
+
+      throw new ApiClientError({
         statusCode: response.status,
-      }));
-      throw error;
+        message: errorBody?.message ?? "An unexpected error occurred",
+        requestId: errorBody?.requestId ?? "unknown",
+        errors: errorBody?.errors,
+      });
     }
 
-    return response.json();
+    const envelope = body as {
+      success: boolean;
+      statusCode: number;
+      data: T;
+      requestId: string;
+      timestamp: string;
+    };
+    return envelope.data;
   }
 
   // ── Auth ──────────────────────────────────────────────────
 
-  async register(data: { username: string; email: string; walletAddress: string }) {
-    return this.request<
-      ApiResponse<{ token: string; user: { id: string; username: string; walletAddress: string } }>
-    >("/auth/register", { method: "POST", body: JSON.stringify(data) });
-  }
-
-  async login(data: { email: string; password: string }) {
-    return this.request<
-      ApiResponse<{ token: string; user: { id: string; username: string; walletAddress: string } }>
-    >("/auth/login", { method: "POST", body: JSON.stringify(data) });
-  }
-
-  // ── Users ─────────────────────────────────────────────────
-
-  async getUser(id: string) {
-    return this.request<
-      ApiResponse<{ id: string; username: string; bio: string; walletAddress: string }>
-    >(`/users/${id}`);
-  }
-
-  async updateUser(id: string, data: Partial<{ username: string; bio: string }>) {
-    return this.request<ApiResponse<{ id: string; username: string; bio: string }>>(
-      `/users/${id}`,
-      { method: "PUT", body: JSON.stringify(data) }
-    );
-  }
-
-  // ── Tips ──────────────────────────────────────────────────
-
-  async createTip(data: CreateTipRequest) {
-    return this.request<ApiResponse<CreateTipResponse>>("/tips", {
+  async register(data: SignupRequest) {
+    return this.request<AuthResponse>("/auth/signup", {
       method: "POST",
       body: JSON.stringify(data),
     });
   }
 
-  async getUserTips(userId: string, page = 1, limit = 20) {
-    return this.request<PaginatedResponse<Tip>>(`/tips?user=${userId}&page=${page}&limit=${limit}`);
+  async login(data: LoginRequest) {
+    return this.request<AuthResponse>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  // ── Profiles ─────────────────────────────────────────────
+
+  async getProfile(username: string) {
+    return this.request<User>(`/profiles/${username}`);
+  }
+
+  async getTippingInfo(username: string) {
+    return this.request<TippingInfo>(`/profiles/${username}/tipping-info`);
+  }
+
+  // ── Tips ──────────────────────────────────────────────────
+
+  async createTip(data: CreateTipRequest) {
+    return this.request<CreateTipResponse>("/tips", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getMyReceivedTips(page = 1, limit = 20) {
+    return this.request<PaginatedResponse<Tip>>(`/tips/my/received?page=${page}&limit=${limit}`);
   }
 }
 

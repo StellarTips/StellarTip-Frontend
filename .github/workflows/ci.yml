@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A newer push to the same branch supersedes an in-flight run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: lint, typecheck, test, build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Next 15 requires Node >= 18.18; 20 is the current LTS. The repo
+      # declares no `engines` field, so this is the version CI pins to.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # The repo currently has no test files, and `vitest run` exits 1 on an
+      # empty suite. --passWithNoTests keeps that from failing the pipeline
+      # while still running (and failing on) any test that does exist.
+      - name: Test
+        run: npm run test:run -- --passWithNoTests
+
+      - name: Build
+        run: npm run build

@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import { createMetadata } from "@/lib/seo";
 import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import RegisterForm from "@/components/RegisterForm";
 import Link from "next/link";
 
 export const metadata: Metadata = createMetadata({ title: "Register" });
@@ -19,19 +18,7 @@ export default function RegisterPage() {
             Start receiving tips on the Stellar network
           </p>
         </div>
-        <form className="space-y-4" action="#">
-          <Input label="Username" placeholder="creatorname" required />
-          <Input type="email" label="Email" placeholder="you@example.com" required />
-          <Input type="password" label="Password" placeholder="Create a password" required />
-          <Input
-            label="Wallet Address"
-            placeholder="G..."
-            helperText="Your Stellar wallet address"
-          />
-          <Button type="submit" className="w-full">
-            Create account
-          </Button>
-        </form>
+        <RegisterForm />
         <p className="mt-4 text-center text-sm text-surface-500 dark:text-surface-400">
           Already have an account?{" "}
           <Link href="/login" className="font-medium text-primary-600 hover:underline">

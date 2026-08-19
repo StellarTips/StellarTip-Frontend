@@ -6,30 +6,64 @@
 ## Authentication
 JWT Bearer token required for protected endpoints.
 
+## Response Envelope
+
+All successful responses are wrapped in:
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "data": "<payload>",
+  "requestId": "string",
+  "timestamp": "ISO 8601"
+}
+```
+
+All error responses use:
+```json
+{
+  "statusCode": 400,
+  "message": "string",
+  "errors": { "field": ["error message"] },
+  "requestId": "string",
+  "timestamp": "ISO 8601",
+  "path": "string"
+}
+```
+
 ## Endpoints
 
 ### Authentication
 
-#### POST /auth/register
+#### POST /auth/signup
 Register a new user.
 
 **Request:**
 ```json
 {
-  "username": "string",
   "email": "string",
-  "walletAddress": "string"
+  "password": "string",
+  "username": "string",
+  "displayName": "string (optional)"
 }
 ```
 
-**Response:**
+**Response (data):**
 ```json
 {
-  "token": "string",
+  "access_token": "string",
+  "refresh_token": "string",
+  "expires_in": 3600,
   "user": {
     "id": "string",
     "username": "string",
-    "walletAddress": "string"
+    "email": "string",
+    "displayName": "string",
+    "bio": "string",
+    "walletAddress": "string",
+    "avatarUrl": "string",
+    "createdAt": "ISO 8601",
+    "updatedAt": "ISO 8601"
   }
 }
 ```
@@ -45,66 +79,110 @@ Login user.
 }
 ```
 
-### Users
+**Response (data):**
+```json
+{
+  "access_token": "string",
+  "refresh_token": "string",
+  "expires_in": 3600,
+  "user": {
+    "id": "string",
+    "username": "string",
+    "email": "string",
+    "displayName": "string",
+    "bio": "string",
+    "walletAddress": "string",
+    "avatarUrl": "string",
+    "createdAt": "ISO 8601",
+    "updatedAt": "ISO 8601"
+  }
+}
+```
 
-#### GET /users/:id
-Get user profile.
+### Profiles
 
-**Response:**
+#### GET /profiles/:username
+Get a public creator profile by username.
+
+**Response (data):**
 ```json
 {
   "id": "string",
   "username": "string",
+  "displayName": "string",
   "bio": "string",
-  "walletAddress": "string"
+  "walletAddress": "string",
+  "avatarUrl": "string",
+  "createdAt": "ISO 8601",
+  "updatedAt": "ISO 8601"
 }
 ```
 
-#### PUT /users/:id
-Update user profile.
+#### GET /profiles/:username/tipping-info
+Get tipping wallet information for a creator.
+
+**Response (data):**
+```json
+{
+  "walletAddress": "string",
+  "username": "string",
+  "displayName": "string",
+  "avatarUrl": "string"
+}
+```
 
 ### Tips
 
 #### POST /tips
-Create a tip.
+Create a tip (JWT-guarded).
 
 **Request:**
 ```json
 {
-  "receiverId": "string",
-  "amount": "string",
-  "currency": "XLM" | "USDC"
+  "receiverWallet": "string",
+  "senderWallet": "string (optional)",
+  "amount": 10.0,
+  "asset": "XLM | USDC (optional, defaults to XLM)",
+  "message": "string (optional, max 280 chars)"
 }
 ```
 
-**Response:**
+**Response (data):**
 ```json
 {
   "id": "string",
   "transactionHash": "string",
-  "status": "pending" | "confirmed"
+  "status": "pending | confirmed | failed"
 }
 ```
 
-#### GET /tips?user=:id
-Get tips for user.
+#### GET /tips/my/received
+Get tips received by the authenticated user (JWT-guarded).
 
-**Response:**
+**Query params:** `page` (default 1), `limit` (default 20)
+
+**Response (data):**
 ```json
 {
-  "tips": [
+  "data": [
     {
       "id": "string",
-      "amount": "string",
-      "sender": "string",
-      "timestamp": "string",
-      "transactionHash": "string"
+      "senderWallet": "string",
+      "receiverId": "string",
+      "receiverWallet": "string",
+      "amount": 10.0,
+      "asset": "XLM",
+      "message": "string",
+      "status": "confirmed",
+      "transactionHash": "string",
+      "createdAt": "ISO 8601"
     }
   ],
-  "pagination": {
-    "page": 1,
-    "limit": 10,
-    "total": 100
-  }
+  "total": 100,
+  "page": 1,
+  "limit": 20,
+  "totalPages": 5,
+  "hasNextPage": true,
+  "hasPreviousPage": false
 }
 ```

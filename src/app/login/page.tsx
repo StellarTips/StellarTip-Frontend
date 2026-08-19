@@ -1,13 +1,75 @@
-import { Metadata } from "next";
-import { createMetadata } from "@/lib/seo";
+"use client";
+
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { api, ApiClientError } from "@/lib/api";
 import Link from "next/link";
 
-export const metadata: Metadata = createMetadata({ title: "Login" });
+const TOKEN_STORAGE_KEY = "stellartip-auth";
+
+interface StoredAuth {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+}
+
+function persistAuth(auth: StoredAuth) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(auth));
+}
+
+export function loadStoredAuth(): StoredAuth | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as StoredAuth;
+  } catch {
+    return null;
+  }
+}
+
+export function clearStoredAuth() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
+}
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError(null);
+      setIsLoading(true);
+
+      try {
+        const auth = await api.login({ email, password });
+        persistAuth({
+          access_token: auth.access_token,
+          refresh_token: auth.refresh_token,
+          expires_in: auth.expires_in,
+        });
+        api.setToken(auth.access_token);
+        router.push("/dashboard");
+      } catch (err) {
+        const message =
+          err instanceof ApiClientError ? err.message : "Login failed. Please try again.";
+        setError(message);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [email, password, router]
+  );
+
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
       <Card className="w-full max-w-md">
@@ -19,10 +81,31 @@ export default function LoginPage() {
             Sign in to your StellarTip account
           </p>
         </div>
-        <form className="space-y-4" action="#">
-          <Input type="email" label="Email" placeholder="you@example.com" required />
-          <Input type="password" label="Password" placeholder="Enter your password" required />
-          <Button type="submit" className="w-full">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-900 dark:bg-red-900/20">
+              <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+            </div>
+          )}
+          <Input
+            type="email"
+            label="Email"
+            placeholder="you@example.com"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
+          />
+          <Input
+            type="password"
+            label="Password"
+            placeholder="Enter your password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+          />
+          <Button type="submit" className="w-full" isLoading={isLoading} disabled={isLoading}>
             Sign in
           </Button>
         </form>

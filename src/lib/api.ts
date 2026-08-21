@@ -1,5 +1,6 @@
 import { config } from "@/config/index";
 import type {
+  Analytics,
   AuthResponse,
   CreateTipRequest,
   CreateTipResponse,
@@ -111,6 +112,10 @@ class ApiClient {
 
   async getTippingInfo(username: string) {
     return this.request<TippingInfo>(`/profiles/${username}/tipping-info`);
+  }
+
+  async getMyAnalytics() {
+    return this.request<Analytics>("/profiles/me/analytics");
   }
 
   // ── Tips ──────────────────────────────────────────────────

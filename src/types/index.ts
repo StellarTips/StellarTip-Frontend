@@ -93,6 +93,14 @@ export interface TippingInfo {
   avatarUrl?: string;
 }
 
+// ── Analytics ─────────────────────────────────────────────────
+
+export interface Analytics {
+  totalEarnings?: number;
+  tipsReceived?: number;
+  averageTip?: number;
+}
+
 // ── Wallet ────────────────────────────────────────────────────
 
 export type WalletConnectionStatus = "disconnected" | "connecting" | "connected" | "error";

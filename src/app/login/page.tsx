@@ -6,36 +6,8 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { api, ApiClientError } from "@/lib/api";
+import { persistAuth } from "@/lib/auth";
 import Link from "next/link";
-
-const TOKEN_STORAGE_KEY = "stellartip-auth";
-
-interface StoredAuth {
-  access_token: string;
-  refresh_token: string;
-  expires_in: number;
-}
-
-function persistAuth(auth: StoredAuth) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(auth));
-}
-
-export function loadStoredAuth(): StoredAuth | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as StoredAuth;
-  } catch {
-    return null;
-  }
-}
-
-export function clearStoredAuth() {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
-}
 
 export default function LoginPage() {
   const router = useRouter();

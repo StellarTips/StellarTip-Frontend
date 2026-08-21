@@ -12,12 +12,10 @@ import { ConnectWalletButton } from "@/components/ConnectWalletButton";
 import { useWallet } from "@/hooks/useWallet";
 import { useToast } from "@/components/ui/toast/ToastProvider";
 import { api, ApiClientError } from "@/lib/api";
+import { MIN_AMOUNT, validateAmount, validateMessage } from "@/lib/validation";
 import { Heart, ArrowLeft, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import type { TipAsset, TipStatus } from "@/types/index";
-
-const MIN_AMOUNT = 0.0000001;
-const MAX_MESSAGE_LENGTH = 280;
 
 type SubmitStatus = "idle" | "resolving" | "submitting" | "confirmed" | "failed";
 
@@ -25,19 +23,6 @@ interface TipResult {
   id: string;
   transactionHash: string;
   status: TipStatus;
-}
-
-export function validateAmount(value: string): string | null {
-  const num = Number(value);
-  if (!value || isNaN(num)) return "Amount is required";
-  if (num < MIN_AMOUNT) return `Minimum amount is ${MIN_AMOUNT}`;
-  return null;
-}
-
-export function validateMessage(value: string): string | null {
-  if (value.length > MAX_MESSAGE_LENGTH)
-    return `Message must be ${MAX_MESSAGE_LENGTH} characters or less`;
-  return null;
 }
 
 export default function TipPage() {

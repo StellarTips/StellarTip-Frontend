@@ -58,6 +58,7 @@ describe("useWallet", () => {
     mockConnectWallet.mockResolvedValue({
       address: "GABC123",
       publicKey: "GABC123",
+      network: "testnet",
     });
 
     const { result } = renderHook(() => useWallet());
@@ -113,6 +114,7 @@ describe("useWallet", () => {
     mockConnectWallet.mockResolvedValue({
       address: "GABC123",
       publicKey: "GABC123",
+      network: "testnet",
     });
 
     const { result } = renderHook(() => useWallet());
@@ -154,7 +156,11 @@ describe("useWallet", () => {
   it("isLoading is true during connection and false after success", async () => {
     mockIsFreighterInstalled.mockReturnValue(true);
 
-    let resolveConnect!: (value: { address: string; publicKey: string }) => void;
+    let resolveConnect!: (value: {
+      address: string;
+      publicKey: string;
+      network: "testnet" | "mainnet";
+    }) => void;
     mockConnectWallet.mockReturnValue(
       new Promise((r) => {
         resolveConnect = r;
@@ -171,7 +177,7 @@ describe("useWallet", () => {
     expect(result.current.wallet.status).toBe("connecting");
 
     await act(async () => {
-      resolveConnect({ address: "GDEF456", publicKey: "GDEF456" });
+      resolveConnect({ address: "GDEF456", publicKey: "GDEF456", network: "testnet" });
     });
 
     expect(result.current.isLoading).toBe(false);
@@ -209,6 +215,7 @@ describe("useWallet", () => {
     mockConnectWallet.mockResolvedValue({
       address: "GABC123",
       publicKey: "GABC123",
+      network: "testnet",
     });
 
     const { result } = renderHook(() => useWallet());

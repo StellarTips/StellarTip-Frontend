@@ -2,3 +2,4 @@
   "src/**/*.{ts,tsx}": ["eslint --fix", "prettier --write"],
   "src/**/*.{css,md}": ["prettier --write"]
 }
+# bounty-fix-ref: https://github.com/StellarTips/StellarTip-Frontend/issues/15

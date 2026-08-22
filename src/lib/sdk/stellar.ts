@@ -7,14 +7,16 @@ interface FreighterApi {
   getNetwork: () => Promise<string>;
 }
 
-function getFreighterApi(): FreighterApi | undefined {
-  if (typeof window === "undefined") return undefined;
-  const stellar = (
-    window as unknown as {
-      stellar?: FreighterApi;
-    }
-  ).stellar;
-  return stellar;
+/**
+ * Resolve the Freighter browser extension's injected API.
+ *
+ * Freighter exposes the Stellar SDK surface on `window.stellar`. Detection and
+ * connection both consult this single helper so that `isFreighterInstalled()`
+ * returns `true` only when `connectWallet()` can actually read the API.
+ */
+function getFreighterApi(): FreighterApi | null {
+  if (typeof window === "undefined") return null;
+  return (window as unknown as { stellar?: FreighterApi }).stellar ?? null;
 }
 
 function normalizeNetwork(freighterNetwork: string): "testnet" | "mainnet" {
@@ -25,10 +27,12 @@ function normalizeNetwork(freighterNetwork: string): "testnet" | "mainnet" {
 
 /**
  * Check if the Freighter wallet extension is installed.
+ *
+ * Reflects the same surface `connectWallet` reads, so it only reports the
+ * wallet as present when it is actually usable.
  */
 export function isFreighterInstalled(): boolean {
-  if (typeof window === "undefined") return false;
-  return "stellar" in window || "freighter" in window;
+  return getFreighterApi() !== null;
 }
 
 /**
@@ -40,19 +44,15 @@ export async function connectWallet(): Promise<{
   publicKey: string;
   network: "testnet" | "mainnet";
 }> {
-  if (!isFreighterInstalled()) {
+  const stellar = getFreighterApi();
+
+  if (!stellar) {
     throw new Error(
       "Freighter wallet is not installed. Please install the Freighter browser extension."
     );
   }
 
   try {
-    const stellar = getFreighterApi();
-
-    if (!stellar) {
-      throw new Error("Freighter API not available");
-    }
-
     const { isConnected } = await stellar.isConnected();
     if (!isConnected) {
       throw new Error("Freighter is locked. Please unlock your wallet.");

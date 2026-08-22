@@ -17,6 +17,53 @@ function setupWindow(overrides: Record<string, unknown> = {}) {
   return windowMock;
 }
 
+function setFreighterGlobal() {
+  Object.defineProperty(window, "freighter", {
+    value: { isConnected: vi.fn() },
+    writable: true,
+    configurable: true,
+  });
+}
+
+function clearWalletGlobals() {
+  Reflect.deleteProperty(window, "stellar");
+  Reflect.deleteProperty(window, "freighter");
+}
+
+describe("isFreighterInstalled", () => {
+  beforeEach(() => {
+    clearWalletGlobals();
+  });
+
+  afterEach(() => {
+    clearWalletGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it("returns false when neither window.stellar nor window.freighter is present", async () => {
+    const { isFreighterInstalled } = await import("@/lib/sdk/stellar");
+    expect(isFreighterInstalled()).toBe(false);
+  });
+
+  it("returns true when window.stellar is present", async () => {
+    setupWindow();
+    const { isFreighterInstalled } = await import("@/lib/sdk/stellar");
+    expect(isFreighterInstalled()).toBe(true);
+  });
+
+  it("returns false when only window.freighter is present", async () => {
+    setFreighterGlobal();
+    const { isFreighterInstalled } = await import("@/lib/sdk/stellar");
+    expect(isFreighterInstalled()).toBe(false);
+  });
+
+  it("rejects connectWallet when only window.freighter is present", async () => {
+    setFreighterGlobal();
+    const { connectWallet } = await import("@/lib/sdk/stellar");
+    await expect(connectWallet()).rejects.toThrow("Freighter wallet is not installed");
+  });
+});
+
 describe("connectWallet", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -25,6 +72,7 @@ describe("connectWallet", () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.restoreAllMocks();
+    clearWalletGlobals();
   });
 
   it("returns detected testnet network from Freighter", async () => {
@@ -75,6 +123,7 @@ describe("getWalletState", () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.restoreAllMocks();
+    clearWalletGlobals();
   });
 
   it("returns configuredNetwork from config when not connected", async () => {

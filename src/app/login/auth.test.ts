@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Mock localStorage
 const localStorageMock = (() => {
-  let store: Record<string, string> = {};
+  let store: Record<string, string | undefined> = {};
   return {
     getItem: vi.fn((key: string) => store[key] ?? null),
     setItem: vi.fn((key: string, value: string) => {
@@ -33,7 +33,7 @@ describe("token persistence", () => {
   });
 
   it("persistAuth stores tokens in localStorage", async () => {
-    const { persistAuth } = await import("./page");
+    const { persistAuth } = await import("@/lib/auth");
     persistAuth({
       access_token: "at-123",
       refresh_token: "rt-456",
@@ -54,7 +54,7 @@ describe("token persistence", () => {
     const auth = { access_token: "at-123", refresh_token: "rt-456", expires_in: 3600 };
     localStorageMock.getItem.mockReturnValueOnce(JSON.stringify(auth));
 
-    const { loadStoredAuth } = await import("./page");
+    const { loadStoredAuth } = await import("@/lib/auth");
     const result = loadStoredAuth();
     expect(result).toEqual(auth);
   });
@@ -62,7 +62,7 @@ describe("token persistence", () => {
   it("loadStoredAuth returns null when nothing stored", async () => {
     localStorageMock.getItem.mockReturnValueOnce(null);
 
-    const { loadStoredAuth } = await import("./page");
+    const { loadStoredAuth } = await import("@/lib/auth");
     const result = loadStoredAuth();
     expect(result).toBeNull();
   });
@@ -70,13 +70,13 @@ describe("token persistence", () => {
   it("loadStoredAuth returns null on corrupt JSON", async () => {
     localStorageMock.getItem.mockReturnValueOnce("not-json");
 
-    const { loadStoredAuth } = await import("./page");
+    const { loadStoredAuth } = await import("@/lib/auth");
     const result = loadStoredAuth();
     expect(result).toBeNull();
   });
 
   it("clearStoredAuth removes the key from localStorage", async () => {
-    const { clearStoredAuth } = await import("./page");
+    const { clearStoredAuth } = await import("@/lib/auth");
     clearStoredAuth();
 
     expect(localStorageMock.removeItem).toHaveBeenCalledWith("stellartip-auth");

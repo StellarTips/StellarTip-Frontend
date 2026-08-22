@@ -1,10 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { validateAmount, validateMessage } from "./page";
-
-// We test the pure validation functions directly since they are exported.
-// The component integration (resolve-then-submit, failure, success state)
-// requires mocking api, useWallet, useToast, and useRouter — tested via
-// the exported helpers and the acceptance criteria below.
+import { describe, it, expect } from "vitest";
+import { validateAmount, validateMessage } from "@/lib/validation";
 
 describe("tip form validation", () => {
   describe("validateAmount", () => {

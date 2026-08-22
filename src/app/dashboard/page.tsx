@@ -6,13 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { api } from "@/lib/api";
 import { loadStoredAuth } from "@/lib/auth";
-import type { Tip } from "@/types/index";
-
-interface Analytics {
-  totalEarnings?: number;
-  tipsReceived?: number;
-  averageTip?: number;
-}
+import type { Analytics, Tip } from "@/types/index";
 
 function StatCard({ title, value }: { title: string; value: string }) {
   return (
@@ -42,7 +36,7 @@ export default function DashboardPage() {
     async function loadData() {
       try {
         const [analyticsData, tipsData] = await Promise.allSettled([
-          api.request<Analytics>("/profiles/me/analytics"),
+          api.getMyAnalytics(),
           api.getMyReceivedTips(1, 5),
         ]);
 
